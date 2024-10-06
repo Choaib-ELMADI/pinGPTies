@@ -1,0 +1,12 @@
+{
+	"name": "PinGPTies",
+	"version": "1.0.0",
+	"manifest_version": 3,
+	"description": "Pin important ChatGPT discussions for quick access.",
+	"action": {
+		"default_icon": "logo.png",
+		"default_popup": "index.html"
+	},
+	"permissions": ["storage", "tabs"],
+	"host_permissions": ["https://*.chatgpt.com/*"]
+}
