@@ -1,4 +1,11 @@
 .main-container {
+    --main_color: #ececec;
+    --secondary_color: #b4b4b4;
+    --main_bg: #212121;
+    --side_bg_color: #171717;
+    --pop_bg_color: #2f2f2f;
+    --hover_pop_bg_color: #424242;
+
     .header {
         display: inline;
     }

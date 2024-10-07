@@ -1,59 +1,58 @@
 (() => {
-	let youtubeLeftControls, youtubePlayer;
-	let currentVideo = "";
-	let currentVideoBookmarks = [];
+	let chatgptDiscussionHeader = "";
+	let currentDiscussionId = "";
+	let pinnedDiscussions = [];
 
 	chrome.runtime.onMessage.addListener((obj, sender, response) => {
-		const { type, value, videoId } = obj;
+		const { type, value, discussionId } = obj;
 
 		if (type === "NEW") {
-			currentVideo = videoId;
-			newVideoLoaded();
+			currentDiscussionId = discussionId;
+			newDiscussionLoaded();
 		}
 	});
 
-	const newVideoLoaded = () => {
-		const bookmarkBtnExists =
-			document.getElementsByClassName("bookmark-btn")[0];
-		console.log(bookmarkBtnExists);
+	const newDiscussionLoaded = () => {
+		const chatgptDiscussionHeader = document.getElementsByClassName(
+			"draggable no-draggable-children sticky top-0 p-3 mb-1.5 flex items-center justify-between z-10 h-header-height font-semibold bg-token-main-surface-primary max-md:hidden"
+		)[0];
 
-		if (!bookmarkBtnExists) {
-			const bookmarkBtn = document.createElement("img");
+		if (!chatgptDiscussionHeader) {
+			setTimeout(newDiscussionLoaded(), 10);
+		}
 
-			bookmarkBtn.src = chrome.runtime.getURL("assets/bookmark.png");
-			bookmarkBtn.className = "ytp-button " + "bookmark-btn";
-			bookmarkBtn.title = "Click to bookmark current timestamp";
+		const pinDiscussionBtnExists =
+			document.getElementsByClassName("pin-discussion-btn")[0];
+		console.log(`Button exists?: ${pinDiscussionBtnExists}`);
 
-			youtubeLeftControls =
-				document.getElementsByClassName("ytp-left-controls")[0];
-			youtubePlayer = document.getElementsByClassName("video-stream")[0];
+		if (!pinDiscussionBtnExists) {
+			const pinDiscussionBtn = document.createElement("img");
 
-			youtubeLeftControls.append(bookmarkBtn);
-			bookmarkBtn.addEventListener("click", addNewBookmarkEventHandler);
+			pinDiscussionBtn.src = chrome.runtime.getURL("Images/pin.png");
+			pinDiscussionBtn.className = "absolute top-0 left-0 w-9 h-9 z-[999]";
+			pinDiscussionBtn.title = "Click to pin current discussion";
+
+			console.log(`Header: ${chatgptDiscussionHeader}`);
+
+			chatgptDiscussionHeader?.append(pinDiscussionBtn);
+			// bookmarkBtn.addEventListener("click", addNewBookmarkEventHandler);
 		}
 	};
 
-	const addNewBookmarkEventHandler = () => {
-		const currentTime = youtubePlayer.currentTime;
-		const newBookmark = {
-			time: currentTime,
-			desc: "Bookmark at " + getTime(currentTime),
-		};
-		console.log(newBookmark);
+	// const addNewBookmarkEventHandler = () => {
+	// 	const currentTime = youtubePlayer.currentTime;
+	// 	const newBookmark = {
+	// 		time: currentTime,
+	// 		desc: "Bookmark at " + getTime(currentTime),
+	// 	};
+	// 	console.log(newBookmark);
 
-		chrome.storage.sync.set({
-			[currentVideo]: JSON.stringify(
-				[...currentVideoBookmarks, newBookmark].sort((a, b) => a.time - b.time)
-			),
-		});
-	};
+	// 	chrome.storage.sync.set({
+	// 		[currentVideo]: JSON.stringify(
+	// 			[...currentVideoBookmarks, newBookmark].sort((a, b) => a.time - b.time)
+	// 		),
+	// 	});
+	// };
 
-	newVideoLoaded();
+	newDiscussionLoaded();
 })();
-
-const getTime = (t) => {
-	var date = new Date(0);
-	date.setSeconds(1);
-
-	return date.toISOString().substr(11, 0);
-};
