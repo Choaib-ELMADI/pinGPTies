@@ -1,17 +1,61 @@
-.main-container {
+:root {
     --main_color: #ececec;
     --secondary_color: #b4b4b4;
     --main_bg: #212121;
     --side_bg_color: #171717;
     --pop_bg_color: #2f2f2f;
     --hover_pop_bg_color: #424242;
+}
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui;
+}
+
+body {
+    background: var(--pop_bg_color);
+    border: .5px solid var(--secondary_color);
+}
+
+.main-container {
     .header {
-        display: inline;
+        display: flex;
+        align-items: center;
+        gap: .25rem;
+
+        .image-container {
+            width: 20px;
+            height: 20px;
+            position: relative;
+
+            image {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                aspect-ratio: 1;
+                object-fit: contain;
+            }
+        }
+
+        .name {
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: underline;
+        }
     }
 
     .pinned-container {
         display: flex;
         flex-direction: column;
+        gap: .75rem;
+
+        .pinned {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
     }
 }
