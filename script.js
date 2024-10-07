@@ -1,5 +1,7 @@
-const el = document.getElementById("PinGPTies");
+const pinNewDiscussion = () => {};
 
-el.addEventListener("click", () => {
-	console.log("Hi, I am PinGPTies!");
-});
+const viewDiscussions = () => {};
+
+const deleteDiscussion = (e) => {};
+
+document.addEventListener("DOMContentLoaded", () => {});

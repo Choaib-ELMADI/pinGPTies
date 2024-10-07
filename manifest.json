@@ -1,12 +1,35 @@
 {
 	"name": "PinGPTies",
 	"version": "1.0.0",
-	"manifest_version": 3,
 	"description": "Pin important ChatGPT discussions for quick access.",
+
+	"manifest_version": 3,
+	"permissions": ["storage", "tabs"],
+	"host_permissions": ["https://*.chatgpt.com/*"],
+
 	"action": {
-		"default_icon": "logo.png",
+		"default_icon": {
+			"16": "Images/logo.png",
+			"24": "Images/logo.png",
+			"32": "Images/logo.png"
+		},
+		"default_title": "PinGPTies",
 		"default_popup": "index.html"
 	},
-	"permissions": ["storage", "tabs"],
-	"host_permissions": ["https://*.chatgpt.com/*"]
+
+	"background": {
+		"service_worker": "background.js"
+	},
+	"content_scripts": [
+		{
+			"matches": ["https://*.chatgpt.com/*"],
+			"js": ["contentScript.js"]
+		}
+	],
+	"web_accessible_resources": [
+		{
+			"resources": ["Images/pin.png", "Images/delete.png"],
+			"matches": ["https://*.chatgpt.com/*"]
+		}
+	]
 }
