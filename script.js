@@ -7,18 +7,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 	pinnedDiscussions = await getPinnedDiscussions();
 	showPinnedDiscussions(pinnedDiscussions);
 
-	if (pinNewDiscussionBtn) {
-		pinNewDiscussionBtn.addEventListener("click", async () => {
-			chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-				chrome.tabs.sendMessage(tabs[0].id, { action: "PIN_NEW_DISCUSSION" });
+	pinNewDiscussionBtn.addEventListener("click", async () => {
+		chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
+			chrome.tabs.sendMessage(tabs[0].id, {
+				action: "PIN_NEW_DISCUSSION",
 			});
-			console.log("script.js ==> Send query");
-			pinnedDiscussions = await getPinnedDiscussions();
-			pinnedDiscussions = await getPinnedDiscussions();
-			showPinnedDiscussions(pinnedDiscussions);
-			showPinnedDiscussions(pinnedDiscussions);
 		});
-	}
+
+		console.log("script.js ==> Send query");
+		pinnedDiscussions = await getPinnedDiscussions();
+		showPinnedDiscussions(pinnedDiscussions);
+	});
 
 	//! ---- ---- ---- ---- ---- ---- ---- ---- ---- !//
 
