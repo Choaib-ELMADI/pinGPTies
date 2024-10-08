@@ -28,7 +28,17 @@
 	],
 	"web_accessible_resources": [
 		{
-			"resources": ["Images/pin.png", "Images/delete.png"],
+			"resources": [
+				"Images/delete_16x16.png",
+				"Images/delete_20x20.png",
+				"Images/delete_24x24.png",
+				"Images/link_16x16.png",
+				"Images/link_20x20.png",
+				"Images/link_24x24.png",
+				"Images/logo.png",
+				"Images/pin_16x16.png",
+				"Images/pin_24x24.png"
+			],
 			"matches": ["https://*.chatgpt.com/*"]
 		}
 	]
