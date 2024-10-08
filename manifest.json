@@ -37,6 +37,7 @@
 				"Images/link_24x24.png",
 				"Images/logo.png",
 				"Images/pin_16x16.png",
+				"Images/pin_20x20.png",
 				"Images/pin_24x24.png"
 			],
 			"matches": ["https://*.chatgpt.com/*"]

@@ -21,15 +21,19 @@
 					<h1>GPT</h1>
 					<h1>ies</h1>
 				</div>
+				<button id="pin-new-discussion" title="Pin current discussion">
+					<img src="Images/pin_20x20.png" alt="Pin" draggable="false" />
+				</button>
+				<button id="print-discussions" title="Print discussions">Print</button>
 			</div>
-			<div class="pinned-container">
+			<div class="pinned-container" id="pinned-container">
 				<div class="pinned">
 					<p class="pinned-title">Title link</p>
 					<div class="pinned-buttons">
-						<a class="view-link">
+						<a class="view-link" title="View discussion">
 							<img src="Images/link_16x16.png" alt="Link" draggable="false" />
 						</a>
-						<button class="delete">
+						<button class="delete" title="Delete discussion">
 							<img
 								src="Images/delete_16x16.png"
 								alt="Delete"
@@ -41,10 +45,10 @@
 				<div class="pinned">
 					<p class="pinned-title">Title link</p>
 					<div class="pinned-buttons">
-						<a class="view-link">
+						<a class="view-link" title="View discussion">
 							<img src="Images/link_16x16.png" alt="Link" draggable="false" />
 						</a>
-						<button class="delete">
+						<button class="delete" title="Delete discussion">
 							<img
 								src="Images/delete_16x16.png"
 								alt="Delete"
@@ -56,7 +60,11 @@
 			</div>
 			<div class="footer">
 				<span>by: </span>
-				<a href="https://elmadichoaib.vercel.app" target="_blank">
+				<a
+					href="https://elmadichoaib.vercel.app"
+					target="_blank"
+					title="elmadichoaib.vercel.app"
+				>
 					Choaib ELMADI
 				</a>
 			</div>

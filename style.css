@@ -54,6 +54,18 @@ body {
                 }
             }
         }
+
+        button {
+            margin-left: auto;
+            background: transparent;
+            border: 0;
+            outline: none;
+            cursor: pointer;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     }
 
     .pinned-container {
