@@ -15,6 +15,16 @@
     font-family: system-ui;
 }
 
+*::-webkit-scrollbar {
+    width: 5px;
+    background: var(--pop_bg_color);
+}
+
+*::-webkit-scrollbar-thumb {
+    border: 999px;
+    background: var(--secondary_color);
+}
+
 body {
     min-width: 300px;
     background: var(--pop_bg_color);
@@ -77,6 +87,8 @@ body {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: .5rem;
+
             position: relative;
 
             &::after {
@@ -91,7 +103,8 @@ body {
             }
 
             .pinned-title {
-                font-size: 17px;
+                font-size: 16px;
+                line-height: 20px;
                 color: var(--main_color);
             }
 

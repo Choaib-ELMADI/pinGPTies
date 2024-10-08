@@ -4,24 +4,12 @@
 
 	//! ---- ---- ---- ---- ---- ---- ---- ---- ---- !//
 
-	chrome.storage.sync.get("userPinnedDiscussions", (result) => {
-		if (result.userPinnedDiscussions) {
-			pinnedDiscussions = JSON.parse(result.userPinnedDiscussions);
-			console.log("contentScript.js ==> Get discussions");
-		} else {
-			pinnedDiscussions = [];
-			console.log("contentScript.js ==> Get discussions []");
-		}
-
-		console.table(pinnedDiscussions);
-	});
-
-	chrome.runtime.onMessage.addListener((obj, sender, response) => {
+	chrome.runtime.onMessage.addListener(async (obj, sender, response) => {
 		const { type, value, discussionId, action } = obj;
 
 		if (type === "NEW") {
 			currentDiscussionId = discussionId;
-			console.log(currentDiscussionId);
+			pinnedDiscussions = await getPinnedDiscussions();
 		}
 
 		if (action === "PIN_NEW_DISCUSSION") {
@@ -31,10 +19,12 @@
 
 	//! ---- ---- ---- ---- ---- ---- ---- ---- ---- !//
 
-	function pinNewDiscussionHandler() {
+	async function pinNewDiscussionHandler() {
 		if (!currentDiscussionId) {
 			return;
 		}
+
+		//! CHECK IF ALREADY EXISTS
 
 		const title = getDiscussionTitle(currentDiscussionId);
 		const newDiscussion = {
@@ -44,11 +34,11 @@
 			link: `https://chatgpt.com/c/${currentDiscussionId}`,
 		};
 
-		console.log("New discussion to pin");
+		pinnedDiscussions = await getPinnedDiscussions();
 
 		chrome.storage.sync.set({
 			userPinnedDiscussions: JSON.stringify(
-				[...pinnedDiscussions, newDiscussion].sort((a, b) => b.time - a.time) // Newest first
+				[...pinnedDiscussions, newDiscussion].sort((a, b) => b.time - a.time)
 			),
 		});
 	}
@@ -67,5 +57,17 @@
 		}
 
 		return "Discussion";
+	}
+
+	function getPinnedDiscussions() {
+		return new Promise((resolve) => {
+			chrome.storage.sync.get("userPinnedDiscussions", (obj) => {
+				resolve(
+					obj["userPinnedDiscussions"]
+						? JSON.parse(obj["userPinnedDiscussions"])
+						: []
+				);
+			});
+		});
 	}
 })();

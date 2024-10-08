@@ -1,35 +1,36 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
 	const pinNewDiscussionBtn = document.getElementById("pin-new-discussion");
 	let pinnedDiscussions = [];
 
 	//! ---- ---- ---- ---- ---- ---- ---- ---- ---- !//
 
-	getPinnedDiscussions();
+	pinnedDiscussions = await getPinnedDiscussions();
+	showPinnedDiscussions(pinnedDiscussions);
 
 	if (pinNewDiscussionBtn) {
-		pinNewDiscussionBtn.addEventListener("click", () => {
+		pinNewDiscussionBtn.addEventListener("click", async () => {
 			chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
 				chrome.tabs.sendMessage(tabs[0].id, { action: "PIN_NEW_DISCUSSION" });
 			});
 			console.log("script.js ==> Send query");
-			getPinnedDiscussions();
+			pinnedDiscussions = await getPinnedDiscussions();
+			pinnedDiscussions = await getPinnedDiscussions();
+			showPinnedDiscussions(pinnedDiscussions);
+			showPinnedDiscussions(pinnedDiscussions);
 		});
 	}
 
 	//! ---- ---- ---- ---- ---- ---- ---- ---- ---- !//
 
 	function getPinnedDiscussions() {
-		chrome.storage.sync.get("userPinnedDiscussions", (result) => {
-			if (result.userPinnedDiscussions) {
-				pinnedDiscussions = JSON.parse(result.userPinnedDiscussions);
-				console.log("script.js ==> Get discussions");
-			} else {
-				pinnedDiscussions = [];
-				console.log("script.js ==> Get discussions []");
-			}
-
-			showPinnedDiscussions(pinnedDiscussions);
-			console.table(pinnedDiscussions);
+		return new Promise((resolve) => {
+			chrome.storage.sync.get("userPinnedDiscussions", (obj) => {
+				resolve(
+					obj["userPinnedDiscussions"]
+						? JSON.parse(obj["userPinnedDiscussions"])
+						: []
+				);
+			});
 		});
 	}
 
