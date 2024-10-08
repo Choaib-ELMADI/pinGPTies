@@ -1,34 +1,41 @@
 document.addEventListener("DOMContentLoaded", () => {
 	const pinNewDiscussionBtn = document.getElementById("pin-new-discussion");
-	const printDiscussionsBtn = document.getElementById("print-discussions");
 	let pinnedDiscussions = [];
+
+	//! ---- ---- ---- ---- ---- ---- ---- ---- ---- !//
+
+	getPinnedDiscussions();
 
 	if (pinNewDiscussionBtn) {
 		pinNewDiscussionBtn.addEventListener("click", () => {
 			chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
 				chrome.tabs.sendMessage(tabs[0].id, { action: "PIN_NEW_DISCUSSION" });
 			});
+			console.log("script.js ==> Send query");
+			getPinnedDiscussions();
 		});
 	}
 
-	if (printDiscussionsBtn) {
-		printDiscussionsBtn.addEventListener("click", () => {
-			chrome.storage.sync.get("userPinnedDiscussions", (result) => {
-				if (result.userPinnedDiscussions) {
-					pinnedDiscussions = JSON.parse(result.userPinnedDiscussions);
-				} else {
-					pinnedDiscussions = [];
-				}
+	//! ---- ---- ---- ---- ---- ---- ---- ---- ---- !//
 
-				displayPinnedDiscussions(pinnedDiscussions);
-			});
+	function getPinnedDiscussions() {
+		chrome.storage.sync.get("userPinnedDiscussions", (result) => {
+			if (result.userPinnedDiscussions) {
+				pinnedDiscussions = JSON.parse(result.userPinnedDiscussions);
+				console.log("script.js ==> Get discussions");
+			} else {
+				pinnedDiscussions = [];
+				console.log("script.js ==> Get discussions []");
+			}
+
+			showPinnedDiscussions(pinnedDiscussions);
+			console.table(pinnedDiscussions);
 		});
 	}
 
-	displayPinnedDiscussions(pinnedDiscussions);
-
-	function displayPinnedDiscussions(discussions) {
+	function showPinnedDiscussions(discussions) {
 		const discussionsContainer = document.getElementById("pinned-container");
+		console.log("script.js ==> discussionsContainer" + discussionsContainer);
 
 		if (discussionsContainer) {
 			discussionsContainer.innerHTML = "";
@@ -39,7 +46,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 				const pinnedTitle = document.createElement("p");
 				pinnedTitle.className = "pinned-title";
-				pinnedTitle.innerText = `${discussion.id}`;
+				pinnedTitle.innerText = `${
+					discussion?.title ? discussion?.title : "Discussion"
+				}`;
 				pinnedDiscussion.appendChild(pinnedTitle);
 
 				const pinnedButtons = document.createElement("div");
