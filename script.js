@@ -8,11 +8,11 @@ document.addEventListener("DOMContentLoaded", () => {
 	// showPinnedDiscussions(pinnedDiscussions);
 
 	pinNewDiscussionBtn.addEventListener("click", () => {
-		// chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
-		// 	chrome.tabs.sendMessage(tabs[0].id, {
-		// 		action: "PIN_NEW_DISCUSSION",
-		// 	});
-		// });
+		chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
+			chrome.tabs.sendMessage(tabs[0].id, {
+				action: "PIN_NEW_DISCUSSION",
+			});
+		});
 
 		console.log("Hello, World!");
 

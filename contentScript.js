@@ -1,23 +1,25 @@
-(() => {
+(async () => {
 	let currentDiscussionId = "";
 	let pinnedDiscussions = [];
 
 	//! ---- ---- ---- ---- ---- ---- ---- ---- ---- !//
 
-	chrome.runtime.onMessage.addListener((obj, sender, response) => {
+	pinnedDiscussions = await getPinnedDiscussions();
+
+	chrome.runtime.onMessage.addListener(async (obj, sender, response) => {
 		const { type, value, discussionId, action } = obj;
 
 		if (type === "NEW") {
 			console.log("NEW");
 
 			currentDiscussionId = discussionId;
-			// pinnedDiscussions = await getPinnedDiscussions();
+			pinnedDiscussions = await getPinnedDiscussions();
 		}
 
 		if (action === "PIN_NEW_DISCUSSION") {
 			console.log("PIN_NEW_DISCUSSION");
 
-			// pinNewDiscussionHandler();
+			pinNewDiscussionHandler();
 		}
 	});
 
@@ -25,7 +27,8 @@
 
 	async function pinNewDiscussionHandler() {
 		if (!currentDiscussionId) {
-			return;
+			let tab = await getCurrentTab();
+			currentDiscussionId = tab.url.split("/c/")[1];
 		}
 
 		//! CHECK IF ALREADY EXISTS
@@ -37,6 +40,8 @@
 			title: title,
 			link: `https://chatgpt.com/c/${currentDiscussionId}`,
 		};
+
+		console.table(newDiscussion);
 
 		pinnedDiscussions = await getPinnedDiscussions();
 
@@ -73,5 +78,12 @@
 				);
 			});
 		});
+	}
+
+	async function getCurrentTab() {
+		let queryOptions = { active: true, currentWindow: true };
+		let [tab] = await chrome.tabs.query(queryOptions);
+		console.log("call: GET CURRENT TAB");
+		return tab;
 	}
 })();
