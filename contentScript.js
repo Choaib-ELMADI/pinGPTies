@@ -4,16 +4,20 @@
 
 	//! ---- ---- ---- ---- ---- ---- ---- ---- ---- !//
 
-	chrome.runtime.onMessage.addListener(async (obj, sender, response) => {
+	chrome.runtime.onMessage.addListener((obj, sender, response) => {
 		const { type, value, discussionId, action } = obj;
 
 		if (type === "NEW") {
+			console.log("NEW");
+
 			currentDiscussionId = discussionId;
-			pinnedDiscussions = await getPinnedDiscussions();
+			// pinnedDiscussions = await getPinnedDiscussions();
 		}
 
 		if (action === "PIN_NEW_DISCUSSION") {
-			pinNewDiscussionHandler();
+			console.log("PIN_NEW_DISCUSSION");
+
+			// pinNewDiscussionHandler();
 		}
 	});
 
