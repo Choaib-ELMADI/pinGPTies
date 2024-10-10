@@ -15,37 +15,49 @@
 
 		if (action === "PIN_NEW_DISCUSSION") {
 			console.log("PIN_NEW_DISCUSSION");
-			pinNewDiscussionHandler();
+			pinNewDiscussionHandler(response);
 		}
 	});
 
 	//! ---- ---- ---- ---- ---- ---- ---- ---- ---- !//
 
-	async function pinNewDiscussionHandler() {
-		if (!currentDiscussionId) {
-			let tab = getCurrentTab();
-			currentDiscussionId = tab.url.split("/c/")[1];
-		}
+	// async function pinNewDiscussionHandler() {
+	// 	if (!currentDiscussionId) {
+	// 		let tab = getCurrentTab();
+	// 		currentDiscussionId = tab.url.split("/c/")[1];
+	// 	}
 
-		//! CHECK IF ALREADY EXISTS
+	// 	//! CHECK IF ALREADY EXISTS
 
-		const title = getDiscussionTitle(currentDiscussionId);
+	// 	const title = getDiscussionTitle(currentDiscussionId);
+	// 	const newDiscussion = {
+	// 		time: new Date().getTime(),
+	// 		id: currentDiscussionId,
+	// 		title: title,
+	// 		link: `https://chatgpt.com/c/${currentDiscussionId}`,
+	// 	};
+
+	// 	console.table(newDiscussion);
+
+	// 	pinnedDiscussions = await getPinnedDiscussions();
+
+	// 	chrome.storage.sync.set({
+	// 		userPinnedDiscussions: JSON.stringify(
+	// 			[...pinnedDiscussions, newDiscussion].sort((a, b) => b.time - a.time)
+	// 		),
+	// 	});
+	// }
+
+	function pinNewDiscussionHandler(response) {
 		const newDiscussion = {
-			time: new Date().getTime(),
-			id: currentDiscussionId,
-			title: title,
-			link: `https://chatgpt.com/c/${currentDiscussionId}`,
+			id: currentDiscussionId, // Use the currentDiscussionId set previously
+			title: document.title, // Current page title
+			link: window.location.href, // Current page URL
+			time: Date.now(), // Timestamp for sorting
 		};
 
-		console.table(newDiscussion);
-
-		pinnedDiscussions = await getPinnedDiscussions();
-
-		chrome.storage.sync.set({
-			userPinnedDiscussions: JSON.stringify(
-				[...pinnedDiscussions, newDiscussion].sort((a, b) => b.time - a.time)
-			),
-		});
+		// Send the new discussion back to the sender (popup)
+		response({ newDiscussion });
 	}
 
 	function getDiscussionTitle(discussionId) {
