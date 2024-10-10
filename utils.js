@@ -83,19 +83,20 @@ export async function getCurrentTab() {
 
 export function handleNotDiscussionTab() {
 	const discussionsContainer = document.getElementById("pinned-container");
+	const pinNewDiscussionBtn = document.getElementById("pin-new-discussion");
 
-	if (discussionsContainer) {
-		discussionsContainer.innerHTML = "";
+	pinNewDiscussionBtn.classList.add("hidden");
 
-		const noDiscussionContainer = document.createElement("div");
-		noDiscussionContainer.className = "no-discussion-container";
+	discussionsContainer.innerHTML = "";
 
-		const noDiscussionContent = document.createElement("h1");
-		noDiscussionContent.className = "no-discussion-content";
-		noDiscussionContent.innerText =
-			"This is not a chatGPT discussion tab! Please select a valid one.";
-		noDiscussionContainer.appendChild(noDiscussionContent);
+	const noDiscussionContainer = document.createElement("div");
+	noDiscussionContainer.className = "no-discussion-container";
 
-		discussionsContainer.appendChild(noDiscussionContainer);
-	}
+	const noDiscussionContent = document.createElement("h1");
+	noDiscussionContent.className = "no-discussion-content";
+	noDiscussionContent.innerText =
+		"This is not a chatGPT discussion tab! Please select a valid one.";
+	noDiscussionContainer.appendChild(noDiscussionContent);
+
+	discussionsContainer.appendChild(noDiscussionContainer);
 }
