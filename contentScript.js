@@ -1,24 +1,20 @@
-(async () => {
+(() => {
 	let currentDiscussionId = "";
 	let pinnedDiscussions = [];
 
 	//! ---- ---- ---- ---- ---- ---- ---- ---- ---- !//
 
-	pinnedDiscussions = await getPinnedDiscussions();
-
-	chrome.runtime.onMessage.addListener(async (obj, sender, response) => {
+	chrome.runtime.onMessage.addListener((obj, sender, response) => {
 		const { type, value, discussionId, action } = obj;
 
 		if (type === "NEW") {
 			console.log("NEW");
-
 			currentDiscussionId = discussionId;
-			pinnedDiscussions = await getPinnedDiscussions();
+			console.log(currentDiscussionId);
 		}
 
 		if (action === "PIN_NEW_DISCUSSION") {
 			console.log("PIN_NEW_DISCUSSION");
-
 			pinNewDiscussionHandler();
 		}
 	});
@@ -27,7 +23,7 @@
 
 	async function pinNewDiscussionHandler() {
 		if (!currentDiscussionId) {
-			let tab = await getCurrentTab();
+			let tab = getCurrentTab();
 			currentDiscussionId = tab.url.split("/c/")[1];
 		}
 
@@ -84,6 +80,9 @@
 		let queryOptions = { active: true, currentWindow: true };
 		let [tab] = await chrome.tabs.query(queryOptions);
 		console.log("call: GET CURRENT TAB");
-		return tab;
+
+		if (tab.url && tab.url.includes("chatgpt.com/c")) {
+			return tab;
+		}
 	}
 })();

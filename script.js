@@ -1,24 +1,41 @@
-document.addEventListener("DOMContentLoaded", () => {
+import { getCurrentTab, handleNotDiscussionTab } from "./utils.js";
+
+document.addEventListener("DOMContentLoaded", async () => {
 	const pinNewDiscussionBtn = document.getElementById("pin-new-discussion");
 	let pinnedDiscussions = [];
+	let currentTab = "";
 
 	//! ---- ---- ---- ---- ---- ---- ---- ---- ---- !//
 
-	// pinnedDiscussions = await getPinnedDiscussions();
-	// showPinnedDiscussions(pinnedDiscussions);
+	currentTab = await getCurrentTab();
 
-	pinNewDiscussionBtn.addEventListener("click", () => {
-		chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
-			chrome.tabs.sendMessage(tabs[0].id, {
-				action: "PIN_NEW_DISCUSSION",
-			});
+	if (!currentTab.url || !currentTab.url.includes("chatgpt.com/c")) {
+		handleNotDiscussionTab();
+		return;
+	}
+
+	chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+		chrome.tabs.sendMessage(tabs[0].id, {
+			type: "NEW",
+			discussionId: currentTab.url.split("/c/")[1],
 		});
-
-		console.log("Hello, World!");
-
-		// pinnedDiscussions = await getPinnedDiscussions();
-		// showPinnedDiscussions(pinnedDiscussions);
 	});
+
+	pinnedDiscussions = await getPinnedDiscussions();
+	showPinnedDiscussions(pinnedDiscussions);
+
+	// pinNewDiscussionBtn.addEventListener("click", () => {
+	// 	chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+	// 		chrome.tabs.sendMessage(tabs[0].id, {
+	// 			action: "PIN_NEW_DISCUSSION",
+	// 		});
+	// 	});
+
+	// 	console.log("Hello, World!");
+
+	// 	// pinnedDiscussions = await getPinnedDiscussions();
+	// 	// showPinnedDiscussions(pinnedDiscussions);
+	// });
 
 	//! ---- ---- ---- ---- ---- ---- ---- ---- ---- !//
 
@@ -36,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	function showPinnedDiscussions(discussions) {
 		const discussionsContainer = document.getElementById("pinned-container");
-		console.log("script.js ==> discussionsContainer" + discussionsContainer);
+		console.log("Show discussions");
 
 		if (discussionsContainer) {
 			discussionsContainer.innerHTML = "";

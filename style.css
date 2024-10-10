@@ -131,6 +131,18 @@ body {
                 }
             }
         }
+
+        .no-discussion-container {
+            width: 100%;
+            padding-block: .5rem;
+
+            .no-discussion-content {
+                font-size: 16px;
+                font-weight: 600;
+                color: var(--secondary_color);
+                text-align: center;
+            }
+        }
     }
 
     .footer {
