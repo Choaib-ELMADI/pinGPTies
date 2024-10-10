@@ -91,6 +91,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 		discussionsContainer.innerHTML = "";
 
+		if (discussions.length < 1) {
+			const emptyDiscussionsContainer = document.createElement("div");
+			emptyDiscussionsContainer.className = "empty-discussions-container";
+
+			const emptyDiscussionsContent = document.createElement("h1");
+			emptyDiscussionsContent.className = "empty-discussions-content";
+			emptyDiscussionsContent.innerText = "No pinned discussions!";
+			emptyDiscussionsContainer.appendChild(emptyDiscussionsContent);
+
+			discussionsContainer.appendChild(emptyDiscussionsContainer);
+
+			return;
+		}
+
 		discussions.forEach((discussion) => {
 			const pinnedDiscussion = document.createElement("div");
 			pinnedDiscussion.className = "pinned";
