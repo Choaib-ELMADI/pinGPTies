@@ -72,12 +72,12 @@ body {
             outline: none;
             cursor: pointer;
 
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
 
-            &.hidden {
-                display: none;
+            &.show {
+                display: flex;
             }
         }
     }

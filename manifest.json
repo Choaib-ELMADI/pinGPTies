@@ -1,7 +1,7 @@
 {
 	"name": "PinGPTies",
 	"version": "1.0.0",
-	"description": "Pin important ChatGPT discussions for quick access.",
+	"description": "Pin important chatGPT discussions for quick access.",
 
 	"manifest_version": 3,
 	"permissions": ["storage", "tabs"],
@@ -13,7 +13,7 @@
 			"24": "Images/logo.png",
 			"32": "Images/logo.png"
 		},
-		"default_title": "Pin important ChatGPT discussions",
+		"default_title": "Pin important chatGPT discussions",
 		"default_popup": "index.html"
 	},
 

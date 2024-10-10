@@ -1,4 +1,8 @@
-import { getCurrentTab, handleNotDiscussionTab } from "./utils.js";
+import {
+	getCurrentTab,
+	handleNotDiscussionTab,
+	handleShowPinButton,
+} from "./utils.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
 	const pinNewDiscussionBtn = document.getElementById("pin-new-discussion");
@@ -9,15 +13,21 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 	currentTab = await getCurrentTab();
 
-	if (!currentTab.url || !currentTab.url.includes("chatgpt.com/c")) {
+	if (!currentTab.url || !currentTab.url.includes("chatgpt.com")) {
 		handleNotDiscussionTab();
 		return;
+	}
+
+	if (currentTab.url && currentTab.url.includes("chatgpt.com/c")) {
+		handleShowPinButton();
 	}
 
 	chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
 		chrome.tabs.sendMessage(tabs[0].id, {
 			type: "NEW",
-			discussionId: currentTab.url.split("/c/")[1],
+			discussionId: currentTab.url.includes("chatgpt.com/c")
+				? currentTab.url.split("/c/")[1]
+				: "",
 		});
 	});
 
@@ -25,7 +35,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 	showPinnedDiscussions(pinnedDiscussions);
 
 	pinNewDiscussionBtn.addEventListener("click", () => {
-		// Step 1: Get the active tab and send a message to the content script
 		chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
 			chrome.tabs.sendMessage(
 				tabs[0].id,
@@ -33,11 +42,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 					action: "PIN_NEW_DISCUSSION",
 				},
 				async (response) => {
-					// Step 2: Add the new discussion to storage after getting response
 					if (response && response.newDiscussion) {
 						const newDiscussion = response.newDiscussion;
 
-						// Retrieve the current pinned discussions from chrome.storage.sync
 						const { userPinnedDiscussions } = await chrome.storage.sync.get(
 							"userPinnedDiscussions"
 						);
@@ -46,26 +53,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 							? JSON.parse(userPinnedDiscussions)
 							: [];
 
-						// Add the new discussion to the list and sort by time
 						pinnedDiscussions = [...pinnedDiscussions, newDiscussion].sort(
 							(a, b) => b.time - a.time
 						);
 
-						// Step 3: Save the updated list back to chrome.storage.sync and update the UI
 						chrome.storage.sync.set(
 							{
 								userPinnedDiscussions: JSON.stringify(pinnedDiscussions),
 							},
 							() => {
-								// Update the display after saving
 								showPinnedDiscussions(pinnedDiscussions);
-								console.log("New discussion pinned successfully!");
 							}
 						);
-					} else {
-						console.log("No discussion was provided to pin.");
 					}
-					// console.log(response);
 				}
 			);
 		});
