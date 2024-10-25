@@ -7,6 +7,7 @@
     --pop_bg_color: #2f2f2f;
     --hover_pop_bg_color: #424242;
     --error_color: rgb(228, 44, 44);
+    --blue_color: #0877b9;
 }
 
 * {
@@ -66,8 +67,42 @@ body {
             }
         }
 
-        button {
+        .toggle-container {
             margin-left: auto;
+
+            cursor: pointer;
+            width: 40px;
+            height: 22px;
+            border-radius: 11px;
+            background: var(--hover_pop_bg_color);
+
+            position: relative;
+
+            &::after {
+                position: absolute;
+                content: "";
+                top: 2px;
+                left: 2px;
+
+                transition: .3s ease-in-out;
+
+                height: 18px;
+                aspect-ratio: 1;
+                border-radius: 50%;
+                background: var(--error_color);
+            }
+
+            &.active {
+                &::after {
+                    transform: translateX(18px);
+                    background: var(--blue_color);
+                }
+            }
+        }
+
+        button {
+            /* margin-left: auto; */
+
             background: transparent;
             border: 0;
             outline: none;

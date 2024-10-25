@@ -8,6 +8,7 @@ import {
 
 document.addEventListener("DOMContentLoaded", async () => {
 	const pinNewDiscussionBtn = document.getElementById("pin-new-discussion");
+	const toggleContainer = document.getElementById("toggle-container");
 	let pinnedDiscussions = [];
 	let currentTab = "";
 
@@ -79,5 +80,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 				}
 			);
 		});
+	});
+
+	toggleContainer.addEventListener("click", () => {
+		toggleContainer.classList.toggle("active");
 	});
 });
