@@ -2,7 +2,7 @@ import {
 	handleNotDiscussionTab,
 	showPinnedDiscussions,
 	getPinnedDiscussions,
-	handleShowPinButton,
+	handleShowElement,
 	getCurrentTab,
 } from "./utils.js";
 
@@ -21,8 +21,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 		return;
 	}
 
-	if (currentTab.url && currentTab.url.includes("chatgpt.com/c")) {
-		handleShowPinButton();
+	if (currentTab.url) {
+		if (currentTab.url.includes("chatgpt.com/c")) {
+			handleShowElement(pinNewDiscussionBtn);
+		}
+
+		if (currentTab.url.includes("chatgpt.com")) {
+			handleShowElement(toggleContainer);
+		}
 	}
 
 	chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {

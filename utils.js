@@ -21,9 +21,8 @@ export function handleNotDiscussionTab() {
 	discussionsContainer.appendChild(noDiscussionContainer);
 }
 
-export function handleShowPinButton() {
-	const pinNewDiscussionBtn = document.getElementById("pin-new-discussion");
-	pinNewDiscussionBtn.classList.add("show");
+export function handleShowElement(element) {
+	element.classList.add("show");
 }
 
 export function getPinnedDiscussions() {

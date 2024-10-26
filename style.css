@@ -70,6 +70,8 @@ body {
         .toggle-container {
             margin-left: auto;
 
+            display: none;
+
             cursor: pointer;
             width: 40px;
             height: 22px;
@@ -97,6 +99,10 @@ body {
                     transform: translateX(18px);
                     background: var(--blue_color);
                 }
+            }
+
+            &.show {
+                display: flex;
             }
         }
 
