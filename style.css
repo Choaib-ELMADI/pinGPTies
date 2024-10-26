@@ -67,7 +67,7 @@ body {
             }
         }
 
-        .toggle-container {
+        .toggle {
             margin-left: auto;
 
             display: none;
@@ -79,6 +79,10 @@ body {
             background: var(--hover_pop_bg_color);
 
             position: relative;
+
+            &.show {
+                display: flex;
+            }
 
             &::after {
                 position: absolute;
@@ -94,15 +98,11 @@ body {
                 background: var(--error_color);
             }
 
-            &.active {
+            &:has(input[type="checkbox"]:checked) {
                 &::after {
                     transform: translateX(18px);
                     background: var(--brand_color);
                 }
-            }
-
-            &.show {
-                display: flex;
             }
         }
 

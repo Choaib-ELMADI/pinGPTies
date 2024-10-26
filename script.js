@@ -87,8 +87,4 @@ document.addEventListener("DOMContentLoaded", async () => {
 			);
 		});
 	});
-
-	toggleContainer.addEventListener("click", () => {
-		toggleContainer.classList.toggle("active");
-	});
 });
