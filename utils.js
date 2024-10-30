@@ -37,7 +37,7 @@ export function getPinnedDiscussions() {
 	});
 }
 
-export function showPinnedDiscussions(discussions) {
+export function showPinnedDiscussions(discussions, toggleValue) {
 	const discussionsContainer = document.getElementById("pinned-container");
 	console.log("Show discussions");
 
@@ -71,19 +71,33 @@ export function showPinnedDiscussions(discussions) {
 		const pinnedButtons = document.createElement("div");
 		pinnedButtons.className = "pinned-buttons";
 
-		const viewLink = document.createElement("a");
-		viewLink.href = `${discussion.link}`;
-		viewLink.target = "_blank";
-		viewLink.className = "view-link";
-		viewLink.title = "View discussion";
+		const viewLinkInNewTab = document.createElement("a");
+		viewLinkInNewTab.href = `${discussion.link}`;
+		viewLinkInNewTab.target = "_blank";
+		viewLinkInNewTab.className = "view-link";
+		viewLinkInNewTab.id = "view-link-new-tab";
+		viewLinkInNewTab.title = "Open discussion in new tab";
 
-		const viewLinkImage = document.createElement("img");
-		viewLinkImage.src = "Images/link_16x16.png";
-		viewLinkImage.alt = "Link";
-		viewLinkImage.draggable = "false";
-		viewLink.appendChild(viewLinkImage);
+		const viewLinkImage1 = document.createElement("img");
+		viewLinkImage1.src = "Images/link_16x16.png";
+		viewLinkImage1.alt = "Link";
+		viewLinkImage1.draggable = "false";
+		viewLinkInNewTab.appendChild(viewLinkImage1);
 
-		pinnedButtons.appendChild(viewLink);
+		const viewLinkInCurrentTab = document.createElement("button");
+		viewLinkInCurrentTab.className = "view-link-button";
+		viewLinkInCurrentTab.id = "view-link-current-tab";
+		viewLinkInCurrentTab.title = "Open discussion in current tab";
+
+		const viewLinkImage2 = document.createElement("img");
+		viewLinkImage2.src = "Images/link_16x16.png";
+		viewLinkImage2.alt = "Link";
+		viewLinkImage2.draggable = "false";
+		viewLinkInCurrentTab.appendChild(viewLinkImage2);
+
+		!toggleValue
+			? pinnedButtons.appendChild(viewLinkInNewTab)
+			: pinnedButtons.appendChild(viewLinkInCurrentTab);
 
 		const deleteBtn = document.createElement("button");
 		deleteBtn.className = "delete";

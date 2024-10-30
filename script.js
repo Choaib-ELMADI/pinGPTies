@@ -9,10 +9,26 @@ import {
 document.addEventListener("DOMContentLoaded", async () => {
 	const pinNewDiscussionBtn = document.getElementById("pin-new-discussion");
 	const toggleContainer = document.getElementById("toggle-container");
+	const toggle = document.getElementById("toggle");
+	const viewLinkInCurrentTab = document.getElementById("view-link-current-tab");
+	const viewLinkInNewTab = document.getElementById("view-link-new-tab");
+
 	let pinnedDiscussions = [];
 	let currentTab = "";
+	let toggleValue;
 
 	//! ---- ---- ---- ---- ---- ---- ---- ---- ---- !//
+
+	toggleValue = toggle.checked;
+	if (!toggleValue) {
+		toggleContainer.title = "Open in a new tab";
+		viewLinkInNewTab.className = "view-link show";
+		viewLinkInCurrentTab.className = "view-link-button";
+	} else {
+		toggleContainer.title = "Open in current tab";
+		viewLinkInNewTab.className = "view-link";
+		viewLinkInCurrentTab.className = "view-link-button show";
+	}
 
 	currentTab = await getCurrentTab();
 
@@ -41,7 +57,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 	});
 
 	pinnedDiscussions = await getPinnedDiscussions();
-	showPinnedDiscussions(pinnedDiscussions);
+	showPinnedDiscussions(pinnedDiscussions, toggleValue);
 
 	pinNewDiscussionBtn.addEventListener("click", () => {
 		chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -86,5 +102,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 				}
 			);
 		});
+	});
+
+	toggle.addEventListener("change", () => {
+		toggleValue = toggle.checked;
+		if (!toggleValue) {
+			toggleContainer.title = "Open in a new tab";
+			viewLinkInNewTab.className = "view-link show";
+			viewLinkInCurrentTab.className = "view-link-button";
+		} else {
+			toggleContainer.title = "Open in current tab";
+			viewLinkInNewTab.className = "view-link";
+			viewLinkInCurrentTab.className = "view-link-button show";
+		}
 	});
 });

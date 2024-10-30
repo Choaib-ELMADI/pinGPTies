@@ -162,9 +162,28 @@ body {
                 gap: .65rem;
 
                 .view-link {
-                    display: flex;
+                    display: none;
                     align-items: center;
                     justify-content: center;
+
+                    &.show {
+                        display: flex;
+                    }
+                }
+
+                .view-link-button {
+                    display: none;
+                    align-items: center;
+                    justify-content: center;
+
+                    background: transparent;
+                    border: 0;
+                    outline: none;
+                    cursor: pointer;
+
+                    &.show {
+                        display: flex;
+                    }
                 }
 
                 .delete {
