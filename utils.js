@@ -21,9 +21,8 @@ export function handleNotDiscussionTab() {
 	discussionsContainer.appendChild(noDiscussionContainer);
 }
 
-export function handleShowPinButton() {
-	const pinNewDiscussionBtn = document.getElementById("pin-new-discussion");
-	pinNewDiscussionBtn.classList.add("show");
+export function handleShowElement(element) {
+	element.classList.add("show");
 }
 
 export function getPinnedDiscussions() {
@@ -72,19 +71,37 @@ export function showPinnedDiscussions(discussions) {
 		const pinnedButtons = document.createElement("div");
 		pinnedButtons.className = "pinned-buttons";
 
-		const viewLink = document.createElement("a");
-		viewLink.href = `${discussion.link}`;
-		viewLink.target = "_blank";
-		viewLink.className = "view-link";
-		viewLink.title = "View discussion";
+		//! CREATE A LINK ELEMENT
+		const viewLinkInNewTab = document.createElement("a");
+		viewLinkInNewTab.href = `${discussion.link}`;
+		viewLinkInNewTab.target = "_blank";
+		viewLinkInNewTab.className = "view-link";
+		viewLinkInNewTab.id = "view-link-new-tab";
+		viewLinkInNewTab.title = "Open discussion in new tab";
 
-		const viewLinkImage = document.createElement("img");
-		viewLinkImage.src = "Images/link_16x16.png";
-		viewLinkImage.alt = "Link";
-		viewLinkImage.draggable = "false";
-		viewLink.appendChild(viewLinkImage);
+		const viewLinkImage1 = document.createElement("img");
+		viewLinkImage1.src = "Images/link_16x16.png";
+		viewLinkImage1.alt = "Link";
+		viewLinkImage1.draggable = "false";
+		viewLinkInNewTab.appendChild(viewLinkImage1);
+		pinnedButtons.appendChild(viewLinkInNewTab);
 
-		pinnedButtons.appendChild(viewLink);
+		//! CREATE A BUTTON ELEMENT
+		const viewLinkInCurrentTab = document.createElement("button");
+		viewLinkInCurrentTab.className = "view-link-button";
+		viewLinkInCurrentTab.id = "view-link-current-tab";
+		viewLinkInCurrentTab.title = "Open discussion in current tab";
+		viewLinkInCurrentTab.addEventListener("click", function () {
+			const discussionId = discussion.id;
+			updateCurrentTabUrl(discussionId);
+		});
+
+		const viewLinkImage2 = document.createElement("img");
+		viewLinkImage2.src = "Images/link_16x16.png";
+		viewLinkImage2.alt = "Link";
+		viewLinkImage2.draggable = "false";
+		viewLinkInCurrentTab.appendChild(viewLinkImage2);
+		pinnedButtons.appendChild(viewLinkInCurrentTab);
 
 		const deleteBtn = document.createElement("button");
 		deleteBtn.className = "delete";
@@ -100,13 +117,23 @@ export function showPinnedDiscussions(discussions) {
 		deleteBtnImage.alt = "Delete";
 		deleteBtnImage.draggable = "false";
 		deleteBtn.appendChild(deleteBtnImage);
-
 		pinnedButtons.appendChild(deleteBtn);
 
 		pinnedDiscussion.appendChild(pinnedButtons);
 
 		discussionsContainer.appendChild(pinnedDiscussion);
 	});
+}
+
+export function handleToggleContainerTitle() {
+	const toggleContainer = document.getElementById("toggle-container");
+	const toggle = document.getElementById("toggle");
+
+	if (!toggle.checked) {
+		toggleContainer.title = "Open in a new tab";
+	} else {
+		toggleContainer.title = "Open in current tab";
+	}
 }
 
 function deleteDiscussionById(id) {
@@ -127,5 +154,12 @@ function deleteDiscussionById(id) {
 				}
 			);
 		}
+	});
+}
+
+async function updateCurrentTabUrl(id) {
+	const currentTab = await getCurrentTab();
+	await chrome.tabs.update(currentTab.id, {
+		url: `https://chatgpt.com/c/${id}`,
 	});
 }

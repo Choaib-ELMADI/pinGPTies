@@ -1,17 +1,22 @@
 import {
+	handleToggleContainerTitle,
 	handleNotDiscussionTab,
 	showPinnedDiscussions,
 	getPinnedDiscussions,
-	handleShowPinButton,
+	handleShowElement,
 	getCurrentTab,
 } from "./utils.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
 	const pinNewDiscussionBtn = document.getElementById("pin-new-discussion");
+	const toggleContainer = document.getElementById("toggle-container");
+	const toggle = document.getElementById("toggle");
+
 	let pinnedDiscussions = [];
 	let currentTab = "";
+	let toggleState = "";
 
-	//! ---- ---- ---- ---- ---- ---- ---- ---- ---- !//
+	// .- -- --- //
 
 	currentTab = await getCurrentTab();
 
@@ -20,9 +25,29 @@ document.addEventListener("DOMContentLoaded", async () => {
 		return;
 	}
 
-	if (currentTab.url && currentTab.url.includes("chatgpt.com/c")) {
-		handleShowPinButton();
+	if (currentTab.url) {
+		if (currentTab.url.includes("chatgpt.com/c")) {
+			handleShowElement(pinNewDiscussionBtn);
+		}
+
+		if (currentTab.url.includes("chatgpt.com")) {
+			handleShowElement(toggleContainer);
+		}
 	}
+
+	// .- -- --- //
+
+	chrome.storage.sync.get("toggleState", function (result) {
+		if (result && result.toggleState) {
+			toggleState = JSON.parse(result.toggleState);
+			toggle.checked = toggleState;
+			handleToggleContainerTitle();
+		}
+	});
+
+	handleToggleContainerTitle();
+
+	// .- -- --- //
 
 	chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
 		chrome.tabs.sendMessage(tabs[0].id, {
@@ -78,6 +103,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 					}
 				}
 			);
+		});
+	});
+
+	// .- -- --- //
+
+	toggle.addEventListener("change", () => {
+		handleToggleContainerTitle();
+		chrome.storage.sync.set({
+			toggleState: JSON.stringify(toggle.checked),
 		});
 	});
 });
