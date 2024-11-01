@@ -165,10 +165,6 @@ body {
                     display: none;
                     align-items: center;
                     justify-content: center;
-
-                    &.show {
-                        display: flex;
-                    }
                 }
 
                 .view-link-button {
@@ -180,10 +176,6 @@ body {
                     border: 0;
                     outline: none;
                     cursor: pointer;
-
-                    &.show {
-                        display: flex;
-                    }
                 }
 
                 .delete {
@@ -220,6 +212,30 @@ body {
                 font-weight: 600;
                 color: var(--error_color);
                 text-align: center;
+            }
+        }
+    }
+
+    &:has(input[type="checkbox"]:checked) {
+        .pinned-container {
+            .pinned {
+                .pinned-buttons {
+                    .view-link-button {
+                        display: flex;
+                    }
+                }
+            }
+        }
+    }
+
+    &:not(:has(input[type="checkbox"]:checked)) {
+        .pinned-container {
+            .pinned {
+                .pinned-buttons {
+                    .view-link {
+                        display: flex;
+                    }
+                }
             }
         }
     }
