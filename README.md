@@ -12,7 +12,23 @@ PinGPTies is a browser extension that allows users to pin and organize important
 
 - **Quick Access:** No need to scroll through endless chats — get to your important discussions instantly.
 
+## Releases
+
+| Version | Description                                                                                      |
+| ------- | ------------------------------------------------------------------------------------------------ |
+| 1.1.0   | - Added a **direct link to the GitHub repository** within the extension.                         |
+|         | - **Pin opening options** let users choose to open pinned chats in a new tab or the current one. |
+| 1.0.0   | - Initial release with core features: **pin ChatGPT discussions** for quick access.              |
+
 ## Installation
+
+You can easily install PinGPTies from the Chrome Web Store:
+
+1. Go to the [Chrome Web Store page for pinGPTies](https://chromewebstore.google.com/detail/pingpties/ahiimdaeohapophjlaofkkeedjamfagd).
+
+2. Click on **Add to Chrome** to install the extension.
+
+Or, if you prefer to install it manually:
 
 1. Clone or download the repository:
 
