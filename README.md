@@ -28,20 +28,6 @@ You can easily install PinGPTies from the Chrome Web Store:
 
 2. Click on **Add to Chrome** to install the extension.
 
-Or, if you prefer to install it manually:
-
-1. Clone or download the repository:
-
-```sh
-git clone https://github.com/Choaib-ELMADI/pinGPTies.git
-```
-
-2. Open Chrome and navigate to the Extensions page `chrome://extensions`.
-
-3. Enable Developer mode by toggling the switch in the upper right corner.
-
-4. Click on `Load unpacked` and select the folder where you cloned or downloaded the extension.
-
 ## Usage
 
 1. Once installed, open ChatGPT in your browser.
@@ -60,7 +46,21 @@ PinGPTies requires the following permissions:
 
 ## Contributing
 
-Feel free to submit issues, suggest new features, or make pull requests to improve the project.
+Contributions are welcome! Feel free to submit issues, suggest new features, or make pull requests to improve the project.
+
+1. Clone or download the repository:
+
+```sh
+git clone https://github.com/Choaib-ELMADI/pinGPTies.git
+```
+
+2. Open Chrome and navigate to the Extensions page `chrome://extensions`.
+
+3. Enable Developer mode by toggling the switch in the upper right corner.
+
+4. Click on `Load unpacked` and select the folder where you cloned or downloaded the extension.
+
+Thank you for helping improve PinGPTies!
 
 ## License
 
