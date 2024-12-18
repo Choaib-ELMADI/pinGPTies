@@ -4,6 +4,12 @@
 
 PinGPTies is a browser extension that allows users to pin and organize important discussions within ChatGPT, ensuring quick access to crucial conversations without getting lost in long chat histories.
 
+<div align="center">
+
+![pinGPTies](./Images/pinGPTies.png)
+
+</div>
+
 ## Features
 
 - **Pin Important Conversations:** Pin key discussions to easily access them later.
